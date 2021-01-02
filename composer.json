@@ -1,0 +1,23 @@
+{
+    "name": "medschoolcoach/lumen-zapier",
+    "authors": [
+        {
+            "name": "cbrhex",
+            "email": "cbrhex@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "MedSchoolCoach\\LumenZapier\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:MedSchoolCoach/http-client.git"
+        }
+    ]
+}
