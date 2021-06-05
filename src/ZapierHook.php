@@ -47,11 +47,13 @@ class ZapierHook
     /**
      * @param $name
      * @param $arguments
+     * @return \MedSchoolCoach\HttpClient\Response
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function __call($name, $arguments)
     {
         $hookId = Arr::get($this->hookList, $name);
+        $arguments = $this->addGlobals($arguments);
 
         if (!$hookId) {
             throw new MethodNotFoundException(sprintf(
@@ -70,11 +72,30 @@ class ZapierHook
     }
 
     /**
+     * @param array $arguments
+     * @return array
+     */
+    protected function addGlobals(array $arguments): array
+    {
+        if ($global = config('zapier.zaps.global-data')) {
+            if ($querystring = Arr::get($global, 'querystring')) {
+                $arguments[0] = array_merge(Arr::get($arguments, 0, []), $querystring);
+            }
+
+            if ($body = Arr::get($global, 'body')) {
+                $arguments[1] = array_merge(Arr::get($arguments, 1, []), $body);
+            }
+        }
+
+        return $arguments;
+    }
+
+    /**
      * @param string $hookId
      * @param array|null $queryData
      * @return string
      */
-    private function buildUrl(string $hookId, ?array $queryData): string
+    protected function buildUrl(string $hookId, ?array $queryData): string
     {
         $slash = (string)NULL;
         $query = (string)NULL;
@@ -94,7 +115,7 @@ class ZapierHook
      * @param string $config
      * @return array
      */
-    private function parseConfig(string $config): array
+    protected function parseConfig(string $config): array
     {
         $config = str_replace(': ', ':', $config);
         $list = [];
