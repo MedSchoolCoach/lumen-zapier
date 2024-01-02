@@ -18,7 +18,6 @@ class ZapierServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->configure('zapier');
         $this->mergeConfigFrom(realpath(__DIR__ . '/../config/zapier.php'), 'zapier');
 
         $this->app->singleton(ZapierHook::class, function ($app) {
