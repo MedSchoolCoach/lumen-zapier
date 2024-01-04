@@ -9,8 +9,8 @@ return [
     |
     */
     'zaps' => [
-        'url' => env('ZAPIER_ZAPS_URL'),
-        'group-id' => env('ZAPIER_ZAPS_GROUP_ID'),
+        'url' => env('ZAPIER_ZAPS_URL', ''),
+        'group-id' => env('ZAPIER_ZAPS_GROUP_ID', ''),
         'hooks' => env('ZAPIER_HOOKS', []),
         'global-data' => [
             'querystring' => [
